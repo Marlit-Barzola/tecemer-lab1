@@ -12,3 +12,4 @@ try:
 except requests.RequestException as error:
     # Esta línea también debe tener sangría
     print(f"No se pudo obtener el chiste: {error}")
+# Cambio para Pull Request
