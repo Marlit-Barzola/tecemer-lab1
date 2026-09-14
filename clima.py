@@ -1,4 +1,4 @@
-import requests 
+import requests
 import json
 URL = "https://api.open-meteo.com/v1/forecast"
 PARAMETROS = {
@@ -18,4 +18,17 @@ print(json.dumps(datos["daily"], indent=2, ensure_ascii=False))
 print('Claves de primer nivel:', list(datos.keys()))
 print('Claves de "daily":', list(datos["daily"].keys()))
 print('Tipo de temperature_2m_max:', type(datos["daily"]["temperature_2m_max"]))
-print('Primer valor de tiempo:', datos["daily"]["time"][0])
+with open("pronostico_huancayo.json", "w", encoding="utf-8") as archivo:
+    json.dump(datos, archivo, ensure_ascii=False, indent=2)
+import csv
+diario = datos["daily"]
+filas = zip(
+    diario["time"],
+    diario["temperature_2m_max"],
+    diario["temperature_2m_min"],
+    diario["precipitation_sum"],
+)
+with open("pronostico_huancayo.csv", "w", newline="", encoding="utf-8") as archivo:
+    escritor = csv.writer(archivo)
+    escritor.writerow(["fecha", "temp_max", "temp_min", "precipitacion"])
+    escritor.writerows(filas)
